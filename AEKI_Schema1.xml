@@ -1,0 +1,52 @@
+<Schema name="UAS_00000059949 Steven Marcelino Tandiono">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Produk">
+    <Hierarchy name="Default" visible="true" hasAll="true" allMemberName="Semua Produk" primaryKey="SK_Produk">
+      <Table name="produkdim">
+      </Table>
+      <Level name="Kategori" visible="true" column="categoryID" nameColumn="categoryName" ordinalColumn="categoryID" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="ProdukName" visible="true" column="productID" nameColumn="produkName" ordinalColumn="productID" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Cabang">
+    <Hierarchy name="Default" visible="true" hasAll="true" allMemberName="All Cabang" primaryKey="SK_Cabang">
+      <Table name="cabangdim">
+      </Table>
+      <Level name="Name" visible="true" column="storeID" nameColumn="storeName" ordinalColumn="storeID" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Address" visible="true" column="storeID" nameColumn="storeAddress" ordinalColumn="storeID" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Phone" visible="true" column="storeID" nameColumn="storePhone" ordinalColumn="storeID" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="TimeDimension" visible="true" highCardinality="false" name="Time">
+    <Hierarchy name="Default" visible="true" hasAll="true" allMemberName="All Time" primaryKey="SK_Time">
+      <Table name="timedim">
+      </Table>
+      <Level name="Year" visible="true" column="year" type="Numeric" uniqueMembers="true" levelType="TimeYears" hideMemberIf="Never">
+      </Level>
+      <Level name="Month" visible="true" column="month" type="Numeric" uniqueMembers="false" levelType="TimeMonths" hideMemberIf="Never">
+      </Level>
+      <Level name="Day" visible="true" column="day" type="Numeric" uniqueMembers="true" levelType="TimeDays" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Sales" visible="true" cache="true" enabled="true">
+    <Table name="datamart_sales">
+    </Table>
+    <DimensionUsage source="Produk" name="Produk" visible="true" foreignKey="SK_Produk" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Cabang" name="Cabang" visible="true" foreignKey="SK_Cabang" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Time" name="Time" visible="true" foreignKey="SK_Time" highCardinality="false">
+    </DimensionUsage>
+    <Measure name="Total Sales" column="Total" formatString="$ #,##" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Unit Sales" column="productAmount" datatype="Numeric" formatString="#,###" aggregator="count" visible="true">
+    </Measure>
+    <Measure name="Avg Sales" column="Total" aggregator="avg" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
